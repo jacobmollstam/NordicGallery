@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://nordicgallery.local/tv" version="2.5.0" viewmodes="fullscreen">
+  <name>Nordic Gallery</name>
+  <content src="index.html"/>
+  <icon src="icon.png"/>
+  <description>Nordic Gallery — konst och appdocka</description>
+  <tizen:application id="NrdGllry01.NordicGallery" package="NrdGllry01" required_version="5.5"/>
+  <tizen:profile name="tv"/>
+  <tizen:privilege name="http://tizen.org/privilege/internet"/>
+  <access origin="https://script.google.com" subdomains="true"/>
+  <access origin="https://script.googleusercontent.com" subdomains="true"/>
+  <tizen:privilege name="http://tizen.org/privilege/application.info"/>
+  <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+  <tizen:privilege name="http://tizen.org/privilege/system"/>
+  <tizen:privilege name="http://tizen.org/privilege/tv.window"/>
+  <tizen:setting screen-orientation="landscape" context-menu="disable" background-support="disable" encryption="disable" install-location="auto" hwkey-event="enable"/>
+</widget>

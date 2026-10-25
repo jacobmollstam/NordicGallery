@@ -1,0 +1,1547 @@
+<!doctype html>
+
+
+
+
+
+
+
+<html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nordic Gallery · TV · 2.5 Beta</title><style>
+
+
+
+
+
+
+
+:root{--ivory:#f4f0e8;--muted:#d2d2c9;--glass:rgba(22,30,28,.43)}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#18231f;color:var(--ivory);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif}button{font:inherit}.scene{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;overflow:hidden;pointer-events:none}
+
+
+
+.art{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;opacity:0;transition:opacity 1.8s ease;pointer-events:none}
+
+
+
+.art.active{opacity:1}
+
+
+
+.art svg,.art img{height:100%;width:100%;object-fit:cover;display:block}.shade{position:absolute;top:0;right:0;bottom:0;left:0;background:linear-gradient(180deg,rgba(13,22,21,.2) 0%,transparent 35%,rgba(10,19,19,.15) 60%,rgba(10,17,16,.67) 100%)}@keyframes breath{to{transform:scale(1)}}.top{position:absolute;top:5.6%;left:6%;right:6%;display:flex;justify-content:space-between;align-items:flex-start;text-shadow:0 2px 20px #18211f55}.brand{font-size:13px;letter-spacing:.28em;text-transform:uppercase;font-weight:600}.top-right{text-align:right;font-size:14px;letter-spacing:.06em}.clock{font-size:26px;font-weight:300;letter-spacing:.02em}.bottom{position:absolute;bottom:7%;left:6%;right:6%;transition:transform .7s ease,opacity .7s ease}.eyebrow{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:#e5e9e1}.heading{font-size:clamp(38px,5.1vw,92px);line-height:1.05;font-weight:300;letter-spacing:-.045em;margin:12px 0 12px}.subtitle{font-size:clamp(13px,1.35vw,22px);color:#e5e8e0;font-weight:300;margin:0 0 35px}.dock{display:flex;gap:12px;align-items:stretch;max-width:1170px}.tile{appearance:none;cursor:pointer;position:relative;min-width:0;flex:1;height:94px;border-radius:19px;background:rgba(25,32,30,.52);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);color:white;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;transition:transform .24s ease,background .24s ease,border-color .24s ease,box-shadow .24s ease}.tile:focus-visible,.tile.selected{outline:none;transform:translateY(-8px) scale(1.055);background:rgba(244,240,232,.24);border-color:rgba(255,255,255,.87);box-shadow:0 14px 35px #0005}.mark{font-size:24px;font-weight:650;letter-spacing:-.055em;white-space:nowrap}.mark.netflix{color:#f03737;font-size:31px;font-weight:800}.mark.youtube{font-size:21px;letter-spacing:-.04em}.mark.youtube b{color:#ff5555}.mark.disney{font-style:italic;font-family:Georgia,serif}.mark.max{font-weight:800;letter-spacing:-.08em;font-size:29px}.mark.svt{font-weight:800}.mark.ps{font-size:23px}.label{font-size:11px;letter-spacing:.035em;color:#e9e8e4}.hint{font-size:12px;color:#e0e4db;margin-top:20px;letter-spacing:.02em;opacity:.8}.gallery .bottom{transform:translateY(155px);opacity:0;pointer-events:none}.gallery .top{opacity:.7}.gallery .shade{background:linear-gradient(180deg,#0a16161a,transparent 40%,#09120d3a)}.toggle{position:absolute;bottom:24px;right:32px;border:1px solid #ffffff55;border-radius:100px;background:#1c2726aa;color:white;padding:10px 16px;cursor:pointer;font-size:12px;z-index:3}.toast{position:absolute;top:18%;left:50%;transform:translateX(-50%) translateY(-10px);padding:17px 24px;background:#172321dd;border:1px solid #ffffff44;border-radius:15px;backdrop-filter:blur(20px);opacity:0;transition:.3s;pointer-events:none;max-width:min(620px,90vw);text-align:center;font-size:15px}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}@media(max-width:850px){.dock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.tile{height:76px}.mark{font-size:18px}.mark.netflix{font-size:24px}.mark.max{font-size:23px}.heading{font-size:44px}.subtitle{margin-bottom:22px}.bottom{bottom:9%}.gallery .bottom{transform:translateY(300px)}}@media(max-height:600px){.tile{height:64px}.heading{font-size:38px}.subtitle{margin-bottom:18px}.bottom{bottom:5%}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Nordic Gallery 0.2 — restrained tactile depth */
+
+
+
+
+
+
+
+.dock{perspective:1100px;gap:13px}
+
+
+
+
+
+
+
+.tile{background:linear-gradient(145deg,rgba(60,70,65,.64),rgba(17,25,23,.69));border:1px solid rgba(255,255,255,.24);box-shadow:inset 0 1px 0 rgba(255,255,255,.17),inset 0 -12px 20px rgba(0,0,0,.12),0 8px 22px rgba(0,0,0,.18);transform:translateZ(0);text-shadow:0 1px 8px rgba(0,0,0,.18)}
+
+
+
+
+
+
+
+.tile.input-tile{background:linear-gradient(145deg,rgba(104,112,99,.68),rgba(30,40,35,.76));border-color:rgba(244,237,218,.38)}
+
+
+
+
+
+
+
+.tile:focus-visible,.tile.selected{transform:translateY(-9px) scale(1.06);background:linear-gradient(145deg,rgba(218,218,203,.40),rgba(102,119,106,.37));border-color:rgba(255,251,238,.95);box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 0 0 3px rgba(255,255,255,.10),0 19px 42px rgba(0,0,0,.39),0 0 32px rgba(230,226,197,.12)}
+
+
+
+
+
+
+
+.tile .label{white-space:nowrap;font-size:10px}
+
+
+
+
+
+
+
+.tile .mark.apple-device{font-weight:500;letter-spacing:-.07em}
+
+
+
+
+
+
+
+@media(max-width:850px){.tile .label{font-size:10px;white-space:normal;text-align:center}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Nordic Gallery 0.3 — floating ceramic-glass selection */
+
+
+
+
+
+
+
+.dock{perspective:900px;perspective-origin:50% 30%;isolation:isolate;padding:18px 10px 22px;margin:-18px -10px -22px;overflow:visible}
+
+
+
+
+
+
+
+.tile{transform-style:preserve-3d;transition:transform .38s cubic-bezier(.2,.75,.2,1),background .38s ease,border-color .38s ease,box-shadow .38s ease,filter .38s ease;will-change:transform;overflow:visible}
+
+
+
+
+
+
+
+.tile::before{content:"";position:absolute;inset:1px;border-radius:18px;pointer-events:none;background:linear-gradient(155deg,rgba(255,255,255,.19),transparent 43%,rgba(255,255,255,.025) 74%);opacity:.75;transition:opacity .38s ease}
+
+
+
+
+
+
+
+.tile::after{content:"";position:absolute;left:13%;right:13%;bottom:-25px;height:18px;border-radius:50%;background:rgba(4,11,10,.55);filter:blur(13px);opacity:.38;pointer-events:none;transition:opacity .38s ease,transform .38s ease}
+
+
+
+
+
+
+
+.tile:not(.selected){filter:saturate(.88)}
+
+
+
+
+
+
+
+.tile:focus-visible,.tile.selected{z-index:2;transform:translateY(-17px) translateZ(38px) rotateX(7deg) scale(1.095);background:linear-gradient(145deg,rgba(224,229,217,.49),rgba(79,101,88,.48) 70%,rgba(38,57,50,.68));border-color:rgba(255,252,239,.95);box-shadow:inset 0 2px 1px rgba(255,255,255,.53),inset 0 -12px 25px rgba(0,0,0,.15),0 0 0 1px rgba(255,255,255,.17),0 28px 55px rgba(0,0,0,.48),0 0 46px rgba(228,235,211,.13)}
+
+
+
+
+
+
+
+.tile.selected::before,.tile:focus-visible::before{opacity:1}
+
+
+
+
+
+
+
+.tile.selected::after,.tile:focus-visible::after{opacity:.82;transform:translateY(9px) scale(1.18)}
+
+
+
+
+
+
+
+.tile.selected .mark,.tile:focus-visible .mark{transform:translateZ(18px);text-shadow:0 4px 13px rgba(0,0,0,.26)}
+
+
+
+
+
+
+
+.tile .mark{transition:transform .38s ease,text-shadow .38s ease}
+
+
+
+
+
+
+
+.tile.selected .label,.tile:focus-visible .label{color:#fffdf5}
+
+
+
+
+
+
+
+@media(max-width:850px){.dock{padding:10px 6px 14px;margin:-10px -6px -14px}.tile:focus-visible,.tile.selected{transform:translateY(-8px) scale(1.045) rotateX(4deg)}}
+
+
+
+
+
+
+
+@media(prefers-reduced-motion:reduce){.tile,.tile .mark,.tile::before,.tile::after{transition:none!important}.tile:focus-visible,.tile.selected{transform:translateY(-5px) scale(1.035)}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Nordic Gallery 0.4 — gallery polish and accessible remote focus */
+
+
+
+
+
+
+
+.gallery-meta{position:absolute;left:6%;right:6%;bottom:7%;display:flex;align-items:center;gap:24px;color:#f4f0e8;font-size:12px;letter-spacing:.05em;text-shadow:0 2px 15px #0009;opacity:0;transform:translateY(15px);transition:opacity .65s ease,transform .65s ease;pointer-events:none}
+
+
+
+
+
+
+
+.gallery .gallery-meta{opacity:.87;transform:translateY(0)}
+
+
+
+
+
+
+
+.gallery-meta #galleryCount{font-weight:650;letter-spacing:.18em}
+
+
+
+
+
+
+
+.gallery-meta #galleryPause{margin-left:auto;opacity:.8}
+
+
+
+
+
+
+
+.gallery .top{transition:opacity .65s ease}
+
+
+
+
+
+
+
+.gallery .art{animation-duration:50s}
+
+
+
+
+
+
+
+.tile:focus-visible{outline:2px solid rgba(255,252,240,.8);outline-offset:4px}
+
+
+
+
+
+
+
+@media(max-width:850px){.gallery-meta{bottom:12%;font-size:10px;gap:10px}.gallery-instructions{display:none}}
+
+
+
+
+
+
+
+@media(prefers-reduced-motion:reduce){.art{animation:none;transition:opacity .15s}.gallery-meta{transition:none}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 0.5 — artwork collection */
+
+
+
+
+
+
+
+.art img{width:100%;height:100%;object-fit:cover}
+
+
+
+
+
+
+
+.gallery .gallery-meta{opacity:.92}
+
+
+
+
+
+
+
+.gallery .top{opacity:.18}
+
+
+
+
+
+
+
+.gallery .gallery-meta{font-size:clamp(11px,1vw,16px)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 0.6 — artwork manager */
+
+
+
+
+
+
+
+.manage-button{position:absolute;right:32px;bottom:75px;z-index:4;background:#1c2726aa;color:#fff;border:1px solid #ffffff55;border-radius:100px;padding:10px 16px;cursor:pointer;font-size:12px}
+
+
+
+
+
+
+
+.manager{position:fixed;inset:0;z-index:20;background:rgba(10,18,16,.84);backdrop-filter:blur(22px);overflow:auto;padding:clamp(20px,4vw,65px);display:none;color:#f4f0e8}.manager.open{display:block}.manager-inner{max-width:1100px;margin:auto}.manager header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:28px}.manager h2{font-size:clamp(30px,4vw,54px);font-weight:300;letter-spacing:-.04em;margin:0}.manager h3{font-size:21px;font-weight:400}.manager p{color:#cbd2c9;line-height:1.5}.manager button,.manager select,.manager input{font:inherit}.manager button{background:#e4e4d8;color:#19251f;border:0;border-radius:10px;padding:11px 15px;cursor:pointer}.manager button.secondary{background:#39463f;color:#f4f0e8;border:1px solid #ffffff40}.manager button.danger{background:#49312e;color:#fff}.manager input,.manager select{background:#24332d;color:white;border:1px solid #ffffff55;border-radius:10px;padding:11px;max-width:100%}.manager input[type=file]{max-width:100%;font-size:13px}.manager input[type=number]{width:95px}.manager .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:18px 0 28px}.manager .controls label{display:flex;align-items:center;gap:8px}.manager .collectionbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:15px 0}.manager .works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}.manager .work-card{background:#25322c;border:1px solid #ffffff25;border-radius:15px;overflow:hidden}.manager .work-card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}.manager .work-card .details{padding:12px}.manager .work-card .details strong{display:block;font-weight:500;margin-bottom:4px}.manager .work-card .details small{color:#b8c2b8}.manager .work-card .actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}.manager .work-card button{padding:6px 9px;font-size:12px}.manager .work-card.hidden-work{opacity:.55}.manager .status{min-height:22px;color:#d7e7d4}.manager .empty{border:1px dashed #ffffff55;border-radius:12px;padding:20px}.manager .close{font-size:22px;line-height:1}
+
+
+
+
+
+
+
+@media(max-width:700px){.manage-button{bottom:68px;right:15px}.manager{padding:18px}.manager .controls{align-items:stretch;flex-direction:column}.manager .controls label{flex-wrap:wrap}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Nordic Gallery 0.8 — artwork-first, quiet home */
+
+
+
+
+
+
+
+.bottom{left:5.2%;right:5.2%;bottom:5.2%}
+
+
+
+
+
+
+
+.bottom .eyebrow,.bottom .heading,.bottom .subtitle,.bottom .hint{display:none!important}
+
+
+
+
+
+
+
+.top{top:4%;left:5.2%;right:5.2%;justify-content:flex-end}
+
+
+
+
+
+
+
+.top .brand{display:none}
+
+
+
+
+
+
+
+.top-right #date{display:none}
+
+
+
+
+
+
+
+.clock{font-size:clamp(16px,1.55vw,26px);font-weight:300;opacity:.85;text-shadow:0 2px 16px #0009}
+
+
+
+
+
+
+
+.dock{max-width:1050px;margin:0 auto;gap:clamp(7px,1vw,15px);padding:18px 10px 22px}
+
+
+
+
+
+
+
+.tile{height:clamp(66px,6.5vw,102px);border-radius:18px;background:rgba(20,28,26,.47);border-color:rgba(255,255,255,.18);gap:5px}
+
+
+
+
+
+
+
+.tile .label{font-size:clamp(9px,.75vw,12px);opacity:.75;white-space:nowrap}
+
+
+
+
+
+
+
+.tile .mark{font-size:clamp(16px,1.7vw,25px)}
+
+
+
+
+
+
+
+.tile .mark.netflix{font-size:clamp(22px,2vw,30px)}
+
+
+
+
+
+
+
+.tile .mark.max{font-size:clamp(20px,2vw,29px)}
+
+
+
+
+
+
+
+.tile:focus-visible,.tile.selected{transform:translateY(-7px) scale(1.055) rotateX(4deg);box-shadow:0 16px 38px #0008,0 0 0 1px #ffffff80}
+
+
+
+
+
+
+
+.shade{background:linear-gradient(180deg,#10171525 0%,transparent 45%,#10171510 68%,#0b131266 100%)}
+
+
+
+
+
+
+
+.manage-button{right:23px;bottom:20px;font-size:0;width:38px;height:38px;border-radius:50%;padding:0;opacity:.48}
+
+
+
+
+
+
+
+.manage-button::after{content:'⚙';font-size:18px}
+
+
+
+
+
+
+
+.manage-button:hover,.manage-button:focus-visible{opacity:1}
+
+
+
+
+
+
+
+.toggle{right:auto;left:23px;bottom:20px;font-size:0;width:38px;height:38px;border-radius:50%;padding:0;opacity:.48}
+
+
+
+
+
+
+
+.toggle::after{content:'▾';font-size:23px;line-height:1}
+
+
+
+
+
+
+
+.toggle:hover,.toggle:focus-visible{opacity:1}
+
+
+
+
+
+
+
+.gallery .top,.gallery .gallery-meta,.gallery .manage-button,.gallery .toggle{opacity:0;pointer-events:none}
+
+
+
+
+
+
+
+.gallery .shade{background:none}
+
+
+
+
+
+
+
+.gallery .bottom{transform:translateY(180px)}
+
+
+
+
+
+
+
+@media(max-width:850px){.dock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));max-width:600px}.tile{height:72px}.bottom{bottom:7%}.gallery .bottom{transform:translateY(350px)}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Nordic Gallery 0.8 — symbol-only dock */
+
+
+
+
+
+
+
+.dock{max-width:1000px;gap:clamp(9px,1.25vw,18px)}
+
+
+
+
+
+
+
+.tile{height:clamp(72px,7.3vw,112px);border-radius:22px;gap:0}
+
+
+
+
+
+
+
+.tile .mark{font-size:clamp(20px,2vw,33px)}
+
+
+
+
+
+
+
+.tile .mark.netflix{font-size:clamp(30px,3vw,43px)}
+
+
+
+
+
+
+
+.tile .mark.youtube{font-size:clamp(16px,1.65vw,26px)}
+
+
+
+
+
+
+
+.tile .mark.max{font-size:clamp(25px,2.6vw,39px)}
+
+
+
+
+
+
+
+.selection-name{min-height:22px;text-align:center;margin-bottom:4px;color:rgba(250,248,240,.86);font-size:clamp(11px,.95vw,15px);font-weight:400;letter-spacing:.055em;text-shadow:0 2px 12px #0009;transition:opacity .3s}
+
+
+
+
+
+
+
+.gallery .selection-name{opacity:0}
+
+
+
+
+
+
+
+@media(max-width:850px){.tile{height:76px}.selection-name{margin-bottom:0}}
+
+
+
+
+
+
+
+/* Nordic Gallery 0.9: keep artwork perfectly stationary across modes. */
+
+
+
+
+
+
+
+.art,.gallery .art{animation:none!important;transform:none!important;will-change:opacity}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Nordic Gallery 1.1: refined high-contrast vector app icons. */
+
+
+
+
+
+
+
+.tile .mark.icon-mark{display:flex;align-items:center;justify-content:center;width:100%;height:100%;transform-style:preserve-3d}
+
+
+
+
+
+
+
+.tile .icon-mark img{display:block;width:88%;height:76%;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,.23));pointer-events:none}
+
+
+
+
+
+
+
+.tile:nth-child(1) .icon-mark img,.tile:nth-child(2) .icon-mark img{width:76%;height:73%}
+
+
+
+
+
+
+
+.tile:nth-child(3) .icon-mark img{width:78%;height:86%}
+
+
+
+
+
+
+
+.tile:nth-child(4) .icon-mark img{width:81%;height:75%}
+
+
+
+
+
+
+
+.tile:nth-child(5) .icon-mark img{width:78%;height:78%}
+
+
+
+
+
+
+
+.tile:nth-child(6) .icon-mark img{width:92%;height:78%}
+
+
+
+
+
+
+
+.tile:nth-child(7) .icon-mark img{width:76%;height:76%}
+
+
+
+
+
+
+
+.tile:nth-child(8) .icon-mark img{width:88%;height:85%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* v1.2 — optiskt balanserade logotyper; oförändrad docka och animation */
+
+
+
+
+
+
+
+.tile .icon-mark img{width:78%;height:72%;object-position:center;filter:drop-shadow(0 2px 3px rgba(0,0,0,.13))}
+
+
+
+
+
+
+
+.tile:nth-child(1) .icon-mark img{width:67%;height:68%}
+
+
+
+
+
+
+
+.tile:nth-child(2) .icon-mark img{width:95%;height:90%}
+
+
+
+
+
+
+
+.tile:nth-child(3) .icon-mark img{width:62%;height:67%}
+
+
+
+
+
+
+
+.tile:nth-child(4) .icon-mark img{width:88%;height:74%}
+
+
+
+
+
+
+
+.tile:nth-child(5) .icon-mark img{width:72%;height:70%}
+
+
+
+
+
+
+
+.tile:nth-child(6) .icon-mark img{width:98%;height:84%}
+
+
+
+
+
+
+
+.tile:nth-child(7) .icon-mark img{width:89%;height:77%}
+
+
+
+
+
+
+
+.tile:nth-child(8) .icon-mark img{width:92%;height:84%}
+
+
+
+
+
+
+
+
+
+
+
+/* Nordic Gallery TV: robust focus and layer ordering */
+
+
+
+.scene{z-index:0}
+
+
+
+.top{z-index:2}
+
+
+
+.bottom{z-index:3;overflow:visible}
+
+
+
+.gallery-meta{z-index:2}
+
+
+
+.toast{z-index:10}
+
+
+
+.dock{overflow:visible}
+
+
+
+.tile{transition:transform .28s ease,background .28s ease,border-color .28s ease,box-shadow .28s ease !important;transform:none;transform-style:flat;will-change:auto}
+
+
+
+.tile.selected,.tile:focus{position:relative;z-index:5;transform:translateY(-12px) scale(1.12) !important;background:rgba(190,204,192,.53) !important;border-color:rgba(255,255,255,.95) !important;box-shadow:0 18px 42px rgba(0,0,0,.48),0 0 0 2px rgba(255,255,255,.32) !important;outline:none}
+
+
+
+.tile:focus .icon-mark img,.tile.selected .icon-mark img{filter:drop-shadow(0 4px 8px rgba(0,0,0,.38))}
+
+
+
+
+
+
+
+/* v1.4 — fjärrkontrollens fokus kan nå inställningskugghjulet. */
+
+
+
+.manage-button{transition:opacity .24s ease,transform .24s ease,background .24s ease,box-shadow .24s ease}
+
+
+
+.manage-button.selected,.manage-button:focus{opacity:1;outline:2px solid rgba(255,252,240,.95);outline-offset:4px;transform:scale(1.2);background:rgba(244,240,232,.32);box-shadow:0 8px 25px rgba(0,0,0,.45)}
+
+
+
+
+
+
+
+/* TV artwork picker — 1.5 */
+
+
+
+.manage-button:focus,.manage-button:focus-visible,.manage-button.selected{outline:none!important;transform:scale(1.13)!important;opacity:1!important;border-color:rgba(255,255,255,.75)!important;background:rgba(225,231,218,.23)!important;box-shadow:0 0 0 2px rgba(244,240,232,.28),0 8px 25px rgba(0,0,0,.35)!important}
+
+
+
+.picker{position:fixed;top:0;right:0;bottom:0;left:0;z-index:30;display:none;background:rgba(13,22,19,.97);color:#f4f0e8;padding:5vh 7vw;overflow:hidden}
+
+
+
+.picker.open{display:flex;flex-direction:column}
+
+
+
+.picker-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:3vh}
+
+
+
+.picker-title{font-size:clamp(27px,2.7vw,49px);font-weight:300;letter-spacing:-.035em}
+
+
+
+.picker-count{font-size:clamp(13px,1.2vw,20px);color:#bfc9bd;letter-spacing:.13em}
+
+
+
+.picker-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(12px,1.65vw,32px);flex:1;min-height:0}
+
+
+
+.picker-item{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;padding:6px;border:2px solid transparent;border-radius:13px;background:rgba(255,255,255,.035);color:#e7eae2;overflow:hidden;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+
+
+
+.picker-item img{width:100%;flex:1;min-height:0;object-fit:cover;border-radius:6px;display:block;pointer-events:none}
+
+
+
+.picker-item .picker-label{height:26px;line-height:26px;font-size:clamp(11px,.92vw,17px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 3px;text-align:left}
+
+
+
+.picker-item.current .picker-label:before{content:'● ';color:#e7d9ad}
+
+
+
+.picker-item.focused,.picker-item:focus{outline:none;border-color:#f4f0e8;background:rgba(244,240,232,.13);transform:scale(1.035);z-index:2}
+
+
+
+.picker-foot{display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:58px;font-size:clamp(12px,1vw,18px);color:#c5cfc4}
+
+
+
+.picker-settings{display:flex;gap:12px;align-items:center}
+
+
+
+.picker-setting{border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:11px 17px;background:rgba(255,255,255,.06);color:#f4f0e8;font-size:clamp(12px,1vw,17px)}
+
+
+
+.picker-setting.focused,.picker-setting:focus{outline:none;border-color:#f4f0e8;background:rgba(244,240,232,.20)}
+
+
+
+.picker-hint{color:#aebdb1;white-space:nowrap}
+
+
+
+@media(max-height:720px){.picker{padding:3vh 6vw}.picker-head{margin-bottom:1vh}.picker-foot{min-height:48px}.picker-item .picker-label{height:21px;line-height:21px}}
+
+
+
+
+
+
+
+/* Rund fokusmarkering runt kugghjulet */
+
+
+
+.manage-button,.manage-button.selected,.manage-button:focus,.manage-button:focus-visible{border-radius:50%!important;outline:none!important}
+
+
+
+.manage-button.selected,.manage-button:focus,.manage-button:focus-visible{box-shadow:0 0 0 3px rgba(245,244,234,.82),0 0 0 7px rgba(245,244,234,.12),0 9px 25px rgba(0,0,0,.38)!important}
+
+
+
+/* En liten, tyst laddningssnurra vid appstart. */
+
+
+
+.launch-spinner{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(18,29,26,.58);z-index:45;display:none;align-items:center;justify-content:center;pointer-events:none}
+
+
+
+.launch-spinner.visible{display:flex}
+
+
+
+.launch-spinner span{display:block;width:25px;height:25px;border:3px solid rgba(255,255,255,.24);border-top-color:#f4f0e8;border-radius:50%;animation:ng-spin .8s linear infinite}
+
+
+
+@keyframes ng-spin{to{transform:rotate(360deg)}}
+
+
+
+
+
+
+</style></head><body><main id="app"><div class="scene" id="scene"><div class="art active" id="art0"><img src="art/01.png" alt="Jordens minne" draggable="false"></div><div class="art" id="art1"><img src="art/02.png" alt="Mellanrum" draggable="false"></div><div class="art" id="art2"><img src="art/03.png" alt="Tyst rörelse" draggable="false"></div><div class="art" id="art3"><img src="art/04.png" alt="Skymningsfält" draggable="false"></div><div class="art" id="art4"><img src="art/05.png" alt="Keramik I" draggable="false"></div><div class="art" id="art5"><img src="art/06.png" alt="En kvist i oktober" draggable="false"></div><div class="art" id="art6"><img src="art/07.png" alt="Ljusstudie" draggable="false"></div><div class="art" id="art7"><img src="art/08.png" alt="Sten och skugga" draggable="false"></div><div class="art" id="art8"><img src="art/09.png" alt="Dis över fjorden" draggable="false"></div><div class="art" id="art9"><img src="art/10.png" alt="Efter regnet" draggable="false"></div><div class="art" id="art10"><img src="art/11.png" alt="Kustlinje" draggable="false"></div><div class="art" id="art11"><img src="art/12.png" alt="Den blå timmen" draggable="false"></div><div class="shade"></div></div><header class="top"><div class="brand">Nordic Gallery <span style="opacity:.65;font-weight:300">/ Home</span></div><div class="top-right"><div class="clock" id="clock">19:42</div><div id="date">Söndag 25 oktober</div></div></header><section class="bottom"><div class="eyebrow" id="caption">01 / Jordens minne</div><h1 class="heading" id="heading">Konst för<br>vardagens pauser.</h1><p class="subtitle" id="subtitle">En samling av tolv verk, skapad för vardagsrummet.</p><div class="selection-name" id="selectionName" aria-live="polite">PlayStation 5 · HDMI</div><nav class="dock" aria-label="Appar och ingångar" id="dock"><button class="tile selected input-tile" data-name="PlayStation 5" aria-label="PlayStation 5"><span class="mark icon-mark"><img src="icons/ps5.png" alt="" draggable="false"></span></button><button class="tile input-tile" data-name="Extern Apple TV" aria-label="Extern Apple TV"><span class="mark icon-mark"><img src="icons/apple-device.png" alt="" draggable="false"></span></button><button class="tile" data-name="Netflix" aria-label="Netflix"><span class="mark icon-mark"><img src="icons/netflix.png" alt="" draggable="false"></span></button><button class="tile" data-name="YouTube" aria-label="YouTube"><span class="mark icon-mark"><img src="icons/youtube.png" alt="" draggable="false"></span></button><button class="tile" data-name="Disney+" aria-label="Disney+"><span class="mark icon-mark"><img src="icons/disney.png" alt="" draggable="false"></span></button><button class="tile" data-name="Apple TV-appen" aria-label="Apple TV-appen"><span class="mark icon-mark"><img src="icons/apple-tv.png" alt="" draggable="false"></span></button><button class="tile" data-name="Max" aria-label="Max"><span class="mark icon-mark"><img src="icons/max.png" alt="" draggable="false"></span></button></nav><div class="hint">← → Välj  ·  Enter Öppna  ·  ↓ eller G Galleri  ·  B Byt konstverk  ·  M Hantera konst</div></section><div class="gallery-meta" id="galleryMeta" aria-live="polite"><span id="galleryCount">01 / 12</span><span class="gallery-instructions">← → Byt verk  ·  Enter eller G Visa appar  ·  Paus: P</span><span id="galleryPause">Automatisk växling</span></div><button class="manage-button" id="manageBtn">Hantera konst · M</button><button class="toggle" id="galleryBtn">Galleriläge · G</button><div class="toast" id="toast" role="status"></div><div id="launchSpinner" class="launch-spinner" aria-label="Öppnar app"><span></span></div><section class="picker" id="picker" role="dialog" aria-modal="true" aria-label="Välj konstverk">
+
+
+
+<div class="picker-head"><div class="picker-title">Välj konstverk</div><div class="picker-count" id="pickerCount">01 / 12</div></div>
+
+
+
+<div class="picker-grid" id="pickerGrid"></div>
+
+
+
+<div class="picker-foot"><div class="picker-settings"><button class="picker-setting" id="autoSetting">Automatisk växling · På</button><button class="picker-setting" id="speedSetting">45 sekunder</button></div><div class="picker-hint">Pilar: navigera   ·   OK: välj   ·   Tillbaka: stäng</div></div>
+
+
+
+</section></main><script>
+
+
+
+(function(){
+
+
+
+'use strict';
+
+
+
+var $=function(id){return document.getElementById(id)};
+
+
+
+var app=$('app'),tiles=Array.prototype.slice.call(document.querySelectorAll('.tile'));
+
+
+
+var names=['Jordens minne','Mellanrum','Tyst rörelse','Skymningsfält','Keramik I','En kvist i oktober','Ljusstudie','Sten och skugga','Dis över fjorden','Efter regnet','Kustlinje','Den blå timmen'];
+
+
+
+var genres=['Abstrakt','Abstrakt','Abstrakt','Abstrakt','Stilleben','Stilleben','Stilleben','Stilleben','Landskap','Landskap','Landskap','Landskap'];
+
+
+
+var works=names.map(function(title,i){return {title:title,genre:genres[i],src:'art/'+('0'+(i+1)).slice(-2)+'.png'}});
+
+
+
+var selected=0,art=0,pickerOpen=false,pickerIndex=0,gallery=false,auto=true,interval=45,timer=null,toastTimer=null;
+
+
+
+var pickerItems=[];
+
+
+
+var storageKey='nordic-gallery-tv-v15';
+
+
+
+try{var settings=JSON.parse(localStorage.getItem(storageKey)||'{}');if(typeof settings.auto==='boolean')auto=settings.auto;if([15,30,45,60,120,300].indexOf(settings.interval)!==-1)interval=settings.interval;if(Number.isInteger(settings.art)&&settings.art>=0&&settings.art<works.length)art=settings.art}catch(e){}
+
+
+
+function persist(){try{localStorage.setItem(storageKey,JSON.stringify({auto:auto,interval:interval,art:art}))}catch(e){}}
+
+
+
+function renderArt(){var scene=$('scene');Array.prototype.slice.call(scene.querySelectorAll('.art')).forEach(function(el){el.parentNode.removeChild(el)});works.forEach(function(w,i){var div=document.createElement('div');div.className='art'+(i===art?' active':'');var img=document.createElement('img');img.src=w.src;img.alt=w.title;img.draggable=false;div.appendChild(img);scene.insertBefore(div,scene.querySelector('.shade'))});updateArtLabels()}
+
+
+
+function updateArtLabels(){var w=works[art];$('caption').textContent=('0'+(art+1)).slice(-2)+' / '+w.title;$('galleryCount').textContent=('0'+(art+1)).slice(-2)+' / '+works.length+' · '+w.title+' / '+w.genre;$('heading').innerHTML=['Konst för<br>vardagens pauser.','Rum för<br>det väsentliga.','Ett lugnare sätt<br>att vara hemma.'][art%3];$('pickerCount').textContent=('0'+(art+1)).slice(-2)+' / '+works.length}
+
+
+
+function showArt(i){art=(i+works.length)%works.length;Array.prototype.slice.call($('scene').querySelectorAll('.art')).forEach(function(el,n){el.classList.toggle('active',n===art)});updateArtLabels();persist();pickerItems.forEach(function(el,n){el.classList.toggle('current',n===art)})}
+
+
+
+function resetTimer(){if(timer)clearInterval(timer);timer=null;if(auto&&works.length>1)timer=setInterval(function(){if(!pickerOpen)showArt(art+1)},interval*1000)}
+
+
+
+function focusTile(i){selected=Math.max(0,Math.min(tiles.length-1,i));tiles.forEach(function(el,n){el.classList.toggle('selected',n===selected)});$('manageBtn').classList.remove('selected');$('selectionName').textContent=tiles[selected].getAttribute('data-name')+(selected<2?' · HDMI':'');tiles[selected].focus()}
+
+
+
+function focusSettings(){selected=tiles.length;tiles.forEach(function(el){el.classList.remove('selected')});$('manageBtn').classList.add('selected');$('selectionName').textContent='Välj konstverk';$('manageBtn').focus()}
+
+
+
+function restoreFocus(){if(selected===tiles.length)focusSettings();else focusTile(selected)}
+
+
+
+function toast(message){var el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove('show')},3500)}
+
+
+
+/* Diskret laddningsindikator och app-ID från den aktuella TV:n. */
+
+
+
+var launching=false,launchTimer=null,appCache={};
+
+
+
+function loading(on){
+
+
+
+  launching=on;
+
+
+
+  $('launchSpinner').classList.toggle('visible',on);
+
+
+
+  if(launchTimer){clearTimeout(launchTimer);launchTimer=null}
+
+
+
+  if(on)launchTimer=setTimeout(function(){loading(false)},12000);
+
+
+
+}
+
+
+
+var appTargets={2:['netflix'],3:['youtube'],4:['disney+','disney plus'],5:['apple tv'],6:['max','hbo max']};
+
+
+
+function normalized(s){return String(s||'').toLowerCase().replace(/\s+/g,' ').trim()}
+
+
+
+function appScore(a,index){
+
+
+
+  var name=normalized(a.name),id=normalized(a.id),aliases=appTargets[index]||[];
+
+
+
+  var score=-1;
+
+
+
+  aliases.forEach(function(alias){
+
+
+
+    if(name===alias)score=Math.max(score,100);
+
+
+
+    else if(name.indexOf(alias)!==-1)score=Math.max(score,65);
+
+
+
+  });
+
+
+
+  if(score<0)return -1;
+
+
+
+  if(index===3){
+
+
+
+    if(name==='youtube')score+=25;
+
+
+
+    if(/youtube/.test(id))score+=10;
+
+
+
+    if(/kids|music|studio|tv plus|trailer|preview|helper|service/.test(name))score-=75;
+
+
+
+  }
+
+
+
+  if(index===5&&/apple tv\+?/.test(name))score-=20;
+
+
+
+  return score;
+
+
+
+}
+
+
+
+ var hdmiActive=false;
+ function closeHdmi(){
+  if(!hdmiActive)return false;
+  hdmiActive=false;
+  try{if(typeof tizen!=='undefined'&&tizen.tvwindow)tizen.tvwindow.hide(function(){},function(){},'MAIN')}catch(e){}
+  return true;
+ }
+ document.addEventListener('visibilitychange',function(){if(document.hidden)closeHdmi()});
+ window.addEventListener('pagehide',closeHdmi);
+ window.addEventListener('pageshow',function(){closeHdmi()});
+ document.addEventListener('tizenhwkey',function(e){if(e.keyName==='back'&&closeHdmi()){e.preventDefault&&e.preventDefault()}});
+ function testHdmi(index){
+  closeHdmi();
+  var port=index===0?1:3;
+  if(typeof tizen==='undefined'||!tizen.systeminfo||!tizen.tvwindow){toast('HDMI '+port+': TV Window API saknas.');return}
+  loading(true);
+  var finished=false;
+  var watchdog=setTimeout(function(){if(!finished){finished=true;loading(false);toast('HDMI '+port+': Ingen bild kunde visas. Kontrollera att enheten är påslagen.')}},8000);
+  function done(){if(finished)return false;finished=true;clearTimeout(watchdog);loading(false);return true}
+  function failed(e){if(done())toast('HDMI '+port+': Kunde inte visa källan. Kontrollera att enheten är påslagen. '+((e&&e.name)||''))}
+  try{
+   tizen.systeminfo.getPropertyValue('VIDEOSOURCE',function(info){
+    var sources=(info&&info.connected)||[];
+    var source=sources.filter(function(item){return item.type==='HDMI'&&Number(item.number)===port})[0];
+    if(!source){if(done())toast('Ingen aktiv signal på HDMI '+port+'. Kontrollera att '+(port===3?'Apple TV':'enheten')+' är påslagen.');return}
+    try{tizen.tvwindow.setSource(source,function(){
+      try{tizen.tvwindow.show(function(){hdmiActive=true;done()},failed,['0%','0%','100%','100%'],'MAIN','FRONT')}
+      catch(e){failed(e)}
+    },failed,'MAIN')}catch(e){failed(e)}
+   },failed);
+  }catch(e){failed(e)}
+ }
+ function launchSelected(index){
+
+
+
+  if(launching)return;
+
+
+
+  var name=tiles[index].getAttribute('data-name');
+
+
+
+  if(index===0){testHdmi(index);return}
+  if(index===1){testHdmi(index);return}
+
+
+
+  closeHdmi();
+  if(typeof tizen==='undefined'||!tizen.application){toast('Kan inte öppna appar på den här enheten.');return}
+
+
+
+  loading(true);
+
+
+
+  function fail(message){loading(false);toast(message)}
+
+
+
+  function tryLaunch(targets,position){
+
+
+
+    if(position>=targets.length){fail('Kunde inte öppna '+name+'.');return}
+
+
+
+    var target=targets[position];
+
+
+
+    try{tizen.application.launch(target.id,function(){appCache[index]=target.id;loading(false)},function(error){
+
+
+
+      console.log('Nordic Gallery: kunde inte starta',target.id,error&&error.name);
+
+
+
+      tryLaunch(targets,position+1);
+
+
+
+    })}catch(error){tryLaunch(targets,position+1)}
+
+
+
+  }
+
+
+
+  try{
+
+
+
+    tizen.application.getAppsInfo(function(apps){
+
+
+
+      var candidates=apps.filter(function(a){return appScore(a,index)>=0});
+
+
+
+      candidates.sort(function(a,b){
+
+
+
+        if(appCache[index]===a.id)return -1;
+
+
+
+        if(appCache[index]===b.id)return 1;
+
+
+
+        return appScore(b,index)-appScore(a,index);
+
+
+
+      });
+
+
+
+      console.log('Nordic Gallery: appkandidater',name,candidates.map(function(a){return a.name+' | '+a.id}));
+
+
+
+      if(!candidates.length){fail('Hittar inte '+name+' bland installerade appar.');return}
+
+
+
+      tryLaunch(candidates,0);
+
+
+
+    },function(error){fail('Kunde inte läsa TV:ns appar.')});
+
+
+
+  }catch(error){fail('Kunde inte öppna '+name+'.')}
+
+
+
+}
+
+
+
+function activate(){launchSelected(selected)}
+
+
+
+function toggleGallery(force){gallery=typeof force==='boolean'?force:!gallery;app.classList.toggle('gallery',gallery);$('galleryBtn').textContent=gallery?'Visa appar · G':'Galleriläge · G';if(!gallery)restoreFocus();else document.activeElement.blur()}
+
+
+
+function renderPicker(){var grid=$('pickerGrid');grid.innerHTML='';pickerItems=[];works.forEach(function(w,i){var button=document.createElement('button');button.className='picker-item'+(i===art?' current':'');button.type='button';var img=document.createElement('img');img.src=w.src;img.alt='';var label=document.createElement('span');label.className='picker-label';label.textContent=('0'+(i+1)).slice(-2)+' · '+w.title;button.appendChild(img);button.appendChild(label);button.addEventListener('click',function(){pickerIndex=i;choosePicker()});grid.appendChild(button);pickerItems.push(button)});updateSettings()}
+
+
+
+function updateSettings(){$('autoSetting').textContent='Automatisk växling · '+(auto?'På':'Av');$('speedSetting').textContent=interval+' sekunder'}
+
+
+
+function focusPicker(i){pickerIndex=Math.max(0,Math.min(13,i));var all=pickerItems.concat([$('autoSetting'),$('speedSetting')]);all.forEach(function(el,n){el.classList.toggle('focused',n===pickerIndex)});all[pickerIndex].focus()}
+
+
+
+function openPicker(){pickerOpen=true;$('picker').classList.add('open');pickerIndex=art;renderPicker();focusPicker(pickerIndex)}
+
+
+
+function closePicker(){pickerOpen=false;$('picker').classList.remove('open');focusSettings();resetTimer()}
+
+
+
+function choosePicker(){if(pickerIndex<works.length){showArt(pickerIndex);closePicker()}else if(pickerIndex===12){auto=!auto;persist();updateSettings();resetTimer();focusPicker(12)}else{var speeds=[15,30,45,60,120,300];interval=speeds[(speeds.indexOf(interval)+1)%speeds.length];persist();updateSettings();resetTimer();focusPicker(13)}}
+
+
+
+function pickerMove(key){var next=pickerIndex;if(pickerIndex<12){var row=Math.floor(pickerIndex/4),col=pickerIndex%4;if(key==='ArrowLeft')next=Math.max(row*4,pickerIndex-1);if(key==='ArrowRight')next=Math.min(row*4+3,pickerIndex+1);if(key==='ArrowUp')next=Math.max(0,pickerIndex-4);if(key==='ArrowDown')next=row===2?(col<2?12:13):pickerIndex+4}else{if(key==='ArrowUp')next=pickerIndex===12?8:10;if(key==='ArrowLeft')next=12;if(key==='ArrowRight')next=13}focusPicker(next)}
+
+
+
+function handleKey(e){var key=({37:'ArrowLeft',38:'ArrowUp',39:'ArrowRight',40:'ArrowDown',13:'Enter',10009:'Escape',8:'Backspace'})[e.keyCode]||e.key;if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter',' ','Escape','Backspace'].indexOf(key)!==-1)e.preventDefault();if(pickerOpen){if(key==='Escape'||key==='Backspace'){closePicker();return}if(key==='Enter'||key===' '){choosePicker();return}if(key.indexOf('Arrow')===0){pickerMove(key);return}return}if(key==='m'||key==='M'){focusSettings();openPicker();return}if(key==='Escape'||key==='Backspace'){if(closeHdmi())return;if(gallery)toggleGallery(false);return}if(key==='g'||key==='G'){toggleGallery();return}if(key==='b'||key==='B'){showArt(art+1);resetTimer();return}if(gallery){if(key==='ArrowLeft'||key==='ArrowRight'){showArt(art+(key==='ArrowLeft'?-1:1));resetTimer()}else if(key==='Enter'||key==='ArrowUp'||key==='ArrowDown')toggleGallery(false);return}if(key==='ArrowLeft'){if(selected===tiles.length)focusTile(tiles.length-1);else focusTile(Math.max(0,selected-1))}else if(key==='ArrowRight'){if(selected>=tiles.length-1)focusSettings();else focusTile(selected+1)}else if(key==='ArrowDown')toggleGallery(true);else if(key==='Enter'||key===' '){if(selected===tiles.length)openPicker();else activate()}}
+
+
+
+document.addEventListener('keydown',handleKey);
+
+
+
+tiles.forEach(function(tile,i){tile.addEventListener('focus',function(){if(!pickerOpen&&!gallery){selected=i;tiles.forEach(function(el,n){el.classList.toggle('selected',n===i)});$('manageBtn').classList.remove('selected');$('selectionName').textContent=tile.getAttribute('data-name')+(i<2?' · HDMI':'')}});tile.addEventListener('click',function(){focusTile(i);activate()})});
+
+
+
+$('manageBtn').addEventListener('click',function(){focusSettings();openPicker()});$('galleryBtn').addEventListener('click',function(){toggleGallery()});$('autoSetting').addEventListener('click',function(){pickerIndex=12;choosePicker()});$('speedSetting').addEventListener('click',function(){pickerIndex=13;choosePicker()});
+
+
+
+function updateTime(){var now=new Date();$('clock').textContent=new Intl.DateTimeFormat('sv-SE',{hour:'2-digit',minute:'2-digit'}).format(now);$('date').textContent=new Intl.DateTimeFormat('sv-SE',{weekday:'long',day:'numeric',month:'long'}).format(now).replace(/^./,function(c){return c.toUpperCase()})}
+
+
+
+
+/* Nordic Gallery 2.5 – Drive sync. Each image is downloaded individually. */
+var driveUrl='https://script.google.com/macros/s/AKfycbzrvmIpFnJLIfdGSYB0tVr_AhRQvHd82NQyiD3oIhmawAMO5glpbiHsxHCO0nvU8QspjA/exec';
+var localWorks=works.map(function(w){return {title:w.title,genre:w.genre,src:w.src}});
+var iconFiles=['ps5.png','apple-device.png','netflix.png','youtube.png','disney.png','apple-tv.png','max.png'];
+var lastRemoteBackgroundKey='',lastRemoteButtonKey='',remoteSyncBusy=false;
+function driveGet(params,done){
+ var url=driveUrl+'?'+Object.keys(params).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(params[k])}).join('&');
+ var req=new XMLHttpRequest();req.open('GET',url,true);req.timeout=35000;
+ req.onreadystatechange=function(){if(req.readyState!==4)return;if(req.status<200||req.status>=300){done(new Error('HTTP '+req.status));return}try{var obj=JSON.parse(req.responseText);if(!obj.ok)throw new Error(obj.error||'Drive error');done(null,obj)}catch(e){done(e)}};
+ req.onerror=function(){done(new Error('Network/CORS'))};req.ontimeout=function(){done(new Error('Timeout'))};
+ try{req.send()}catch(e){done(e)}
+}
+function validRemoteImage(data,done){
+ if(!data||typeof data.dataUrl!=='string'||!/^data:image\/(png|jpeg|webp|gif);base64,/.test(data.dataUrl)){done(false);return}
+ var img=new Image();img.onload=function(){done(true)};img.onerror=function(){done(false)};img.src=data.dataUrl;
+}
+function setArtImage(i,src){
+ if(i<0||i>=works.length)return;
+ works[i].src=src;
+ var sceneImgs=$('scene').querySelectorAll('.art img');if(sceneImgs[i])sceneImgs[i].src=src;
+ if(pickerItems[i]){var preview=pickerItems[i].querySelector('img');if(preview)preview.src=src}
+}
+function setDockIcon(i,src){var img=tiles[i]&&tiles[i].querySelector('.icon-mark img');if(img)img.src=src}
+function syncImages(){
+ if(remoteSyncBusy)return;remoteSyncBusy=true;
+ driveGet({action:'manifest'},function(err,manifest){
+  if(err){console.log('Nordic Gallery: manifest unavailable',err.message);remoteSyncBusy=false;return}
+  var backgrounds=(manifest.backgrounds||[]).filter(function(f){return f&&f.id&&f.size<=8*1024*1024});
+  var buttons=(manifest.buttons||[]);
+  // Keep the 12-slot gallery and bundled artwork as fallback.
+  var chosen=backgrounds.slice(0,works.length);
+  var bgKey=JSON.stringify(chosen.map(function(f){return [f.id,f.updatedAt]}));
+  var btnKey=JSON.stringify(buttons.map(function(f){return [f.name,f.id,f.updatedAt]}));
+  var jobs=[];
+  if(bgKey!==lastRemoteBackgroundKey){
+   chosen.forEach(function(file,i){jobs.push({kind:'backgrounds',file:file,index:i})});
+   for(var j=chosen.length;j<works.length;j++){(function(k){jobs.push({resetArt:k})})(j)}
+  }
+  if(btnKey!==lastRemoteButtonKey){
+   iconFiles.forEach(function(name,i){var match=buttons.filter(function(f){return f.name.toLowerCase()===name})[0];if(match)jobs.push({kind:'buttons',file:match,index:i})})
+  }
+  function next(){
+   if(!jobs.length){lastRemoteBackgroundKey=bgKey;lastRemoteButtonKey=btnKey;remoteSyncBusy=false;return}
+   var job=jobs.shift();
+   if(typeof job.resetArt==='number'){setArtImage(job.resetArt,localWorks[job.resetArt].src);next();return}
+   if(job.file.size>8*1024*1024){next();return}
+   driveGet({action:'image',kind:job.kind,id:job.file.id},function(error,result){
+    if(!error){validRemoteImage(result,function(ok){if(ok){if(job.kind==='backgrounds'){setArtImage(job.index,result.dataUrl);works[job.index].title=job.file.name.replace(/\.[^.]+$/,'');works[job.index].genre='Google Drive';updateArtLabels()}else setDockIcon(job.index,result.dataUrl)}next()})}
+    else{console.log('Nordic Gallery: failed to load '+job.file.name,error.message);next()}
+   })
+  }
+  next();
+ })
+}
+
+renderArt();renderPicker();focusTile(0);updateTime();setInterval(updateTime,30000);resetTimer();
+setTimeout(syncImages,1000);setInterval(syncImages,60*60*1000);
+
+
+
+})();
+
+
+
+</script></body></html>

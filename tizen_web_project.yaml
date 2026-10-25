@@ -1,0 +1,103 @@
+# Project type [web_app, test_runner]
+project_type: web_app
+
+# Default profile, Tizen API version
+profile: tv
+api_version: "5.5"
+
+# Build type [Debug/ Release/ Test]
+build_type: Debug
+
+# Output name for application
+output_name: NordicGallery
+
+# Output path for build
+output_path: ""
+
+# Enable size optimization of wgt for web workspace
+opt: false
+
+# Signing profile to be used for Tizen package signing
+# If value is empty: "", active signing profile will be used
+# Else If value is ".", default signing profile will be used
+signing_profile: ""
+
+# list of certs in web project (.trust-anchor)
+trust_anchor: []
+
+# list of files in web project (.html,.css etc) and resources
+files:
+  - .vscode/settings.json
+  - README-TIZEN.txt
+  - README.txt
+  - art/01.png
+  - art/01.svg
+  - art/02.png
+  - art/02.svg
+  - art/03.png
+  - art/03.svg
+  - art/04.png
+  - art/04.svg
+  - art/05.png
+  - art/05.svg
+  - art/06.png
+  - art/06.svg
+  - art/07.png
+  - art/07.svg
+  - art/08.png
+  - art/08.svg
+  - art/09.png
+  - art/09.svg
+  - art/10.png
+  - art/10.svg
+  - art/11.png
+  - art/11.svg
+  - art/12.png
+  - art/12.svg
+  - icon.png
+  - icons/apple-device.png
+  - icons/apple-device.svg
+  - icons/apple-tv.png
+  - icons/apple-tv.svg
+  - icons/disney.png
+  - icons/disney.svg
+  - icons/max.png
+  - icons/max.svg
+  - icons/netflix.png
+  - icons/netflix.svg
+  - icons/ps5.png
+  - icons/ps5.svg
+  - icons/svt.png
+  - icons/svt.svg
+  - icons/youtube.png
+  - icons/youtube.svg
+  - index.html
+
+# list of files to exclude based on the matched patterns
+excludes:
+  - Build/*
+  - Debug/*
+  - Directory.Build.targets
+  - Release/*
+  - Test/*
+  - \.Build/.*
+  - \.buildResult/.*
+  - \.csproj
+  - \.externalToolBuilders/.*
+  - \.gn
+  - \.obj/.*
+  - \.package/.*
+  - \.project
+  - \.rds_delta
+  - \.sdk_delta.info
+  - \.settings/.*
+  - \.sign/.*
+  - \.tizen-ui-builder-tool.xml
+  - \.tproject
+  - \.wgt
+  - tizen_web_project.yaml
+  - webUnitTest/*
+
+# project dependencies
+deps: []
+
